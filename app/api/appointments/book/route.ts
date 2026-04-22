@@ -25,7 +25,7 @@ export async function POST(request: Request){
 
         const db = await getDB();
 
-        await db.collection("appoinments").insertOne({
+        await db.collection("appointments").insertOne({
             userId: new ObjectId(decoded.id),
             hospitalName: body.hospitalName,
             doctorName: body.doctorName,

@@ -1,6 +1,6 @@
 "use client"
 
-import {useState} from "react"
+import {useState, useEffect} from "react"
 
 export default function createPoli() {
     const [form, setForm] = useState({
@@ -8,9 +8,26 @@ export default function createPoli() {
         poliName: "",
         poliCode: ""
     });
+    const [hospitals, setHospitals] = useState<any[]>([]);
+
+    //Fetch hospital from APi
+    useEffect(() => {
+        const fetchHospitals = async () => {
+            const res = await fetch("/api/hospitals/get");
+            const data = await res.json();
+            setHospitals(data.hospitals);
+        };
+
+        fetchHospitals();
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!form.hospitalId || !form.poliName || !form.poliCode) {
+            alert("Please fill all the fields");
+            return;
+        }
 
         const token = localStorage.getItem("token");
 
@@ -39,10 +56,17 @@ export default function createPoli() {
 
             <form onSubmit={handleSubmit} style={{marginTop:"20px"}}>
 
-                <input
-                placeholder="Hospital ID"
-                onChange={(e)=>setForm({...form,hospitalId:e.target.value})}
-                />
+                <select
+                        onChange={(e) => setForm({ ...form, hospitalId: e.target.value })}
+                    >
+                        <option value="">Select Hospital</option>
+
+                        {hospitals.map((h) => (
+                            <option key={h._id} value={h._id}>
+                                {h.hospitalName}
+                            </option>
+                        ))}
+                    </select>
 
                 <input
                 placeholder="Poli Name"

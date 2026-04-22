@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-export default function BookAppoinment() {
+export default function BookAppointment() {
   const [hospitals, setHospitals] = useState<string[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
@@ -25,7 +25,7 @@ export default function BookAppoinment() {
         });
     }, []);
 
-  // 🔥 Handle autocomplete
+  // Handle autocomplete
   const handleHospitalChange = (value: string) => {
     setForm({ ...form, hospitalName: value });
 
@@ -43,13 +43,13 @@ export default function BookAppoinment() {
     setSuggestions(filtered);
   };
 
-  // 🔥 Submit form
+  // Submit form
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const token = localStorage.getItem("token");
 
-    const res = await fetch("/api/appointments/book", {
+    const res = await fetch("./api/appointments/book", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

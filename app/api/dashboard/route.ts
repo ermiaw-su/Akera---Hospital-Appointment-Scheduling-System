@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import {getDB} from "@/lib/mongodb";
 import jwt from "jsonwebtoken";
+import {ObjectId} from "mongodb";
 
 export async function GET(request: Request) {
     try {
@@ -21,28 +22,39 @@ export async function GET(request: Request) {
         );
 
         const db = await getDB();
+        const userId = new ObjectId(decoded.id);
 
-        // Dummy logic sementara
+        // Total visit
         const totalVisits = await db
-        .collection("visits")
-        .countDocuments({ userId: decoded.id });
+        .collection("appoinments")
+        .countDocuments({ userId, status: "finished" });
 
+        // Total diagnoses
         const totalDiagnoses = await db
         .collection("diagnoses")
-        .countDocuments({ userId: decoded.id });
+        .countDocuments({ userId });
 
+        // Last visit
         const lastVisit = await db
-        .collection("visits")
-        .find({ userId: decoded.id })
+        .collection("appoinments")
+        .find({ userId })
         .sort({ createdAt: -1 })
         .limit(1)
         .toArray();
 
+        // Upcoming appointment
+        const upcomingAppointment = await db
+        .collection("appoinments")
+        .find({ userId, status: "scheduled" })
+        .sort({ date: 1 })
+        .limit(1)
+        .toArray();
+
         return NextResponse.json({
-        totalVisits,
-        totalDiagnoses,
-        lastHospital: lastVisit[0]?.hospitalName || "None",
-        upcomingAppointment: "Not scheduled",
+            totalVisits,
+            totalDiagnoses,
+            lastHospital: lastVisit[0]?.hospitalName || "None",
+            upcomingAppointment: upcomingAppointment[0]?.date || "None",
         });
     } catch (error) {
         return NextResponse.json(
