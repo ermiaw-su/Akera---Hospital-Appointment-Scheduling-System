@@ -7,7 +7,9 @@ export default function createDoctor() {
         hospitalId: "",
         poliId: "",
         doctorName: "",
-        specialization: ""
+        specialization: "",
+        username: "",
+        password: ""
     });
 
     const [hospitals, setHospitals] = useState<any[]>([]);
@@ -57,8 +59,24 @@ export default function createDoctor() {
 
         const data = await res.json();
 
+        if (!form.poliId || !form.doctorName || !form.specialization || !form.username || !form.password) {
+            alert("Please fill all the fields");
+            return;
+        }
+
         if(res.ok) {
             alert("Doctor created successfully");
+
+            setForm({
+                hospitalId: "",
+                poliId: "",
+                doctorName: "",
+                specialization: "",
+                username: "",
+                password: ""
+            });
+
+            setPoli([]);
         } else {
             alert(data.error);
         }
@@ -101,12 +119,27 @@ export default function createDoctor() {
 
                 <input
                 placeholder="Doctor Name"
+                value={form.doctorName}
                 onChange={(e)=>setForm({...form,doctorName:e.target.value})}
                 />
 
                 <input
                 placeholder="Specialization"
+                value={form.specialization}
                 onChange={(e)=>setForm({...form,specialization:e.target.value})}
+                />
+
+                <input 
+                    placeholder="Username"
+                    value={form.username}
+                    onChange={(e) => setForm({...form,username:e.target.value})}
+                />
+
+                <input 
+                    placeholder="Password"
+                    type="password"
+                    value={form.password}
+                    onChange={(e) => setForm({...form,password:e.target.value})}
                 />
 
                 <button style={{marginTop:"20px"}}>

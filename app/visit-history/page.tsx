@@ -23,7 +23,7 @@ export default function VisitHistory() {
 
     const token = localStorage.getItem("token");
 
-    const res = await fetch("/api/appoinments/history", {
+    const res = await fetch("/api/appointments/history", {
       headers: {
         Authorization: `Bearer ${token}`
       }

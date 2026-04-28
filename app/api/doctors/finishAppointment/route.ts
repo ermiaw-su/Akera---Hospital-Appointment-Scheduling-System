@@ -27,6 +27,7 @@ export async function PATCH(request: Request) {
         // Take the appointment ID
         const {appointmentId} = body;
 
+        // Check if the ID is valid
         if (!appointmentId || !ObjectId.isValid(appointmentId)) {
             return NextResponse.json(
                 { error: "Invalid appoinment ID" },
@@ -37,7 +38,8 @@ export async function PATCH(request: Request) {
         // Get the database
         const db = await getDB();
 
-        await db.collection("appoinments").updateOne(
+        // Update the appointment
+        await db.collection("appointments").updateOne(
             {_id: new ObjectId(appointmentId)},
             {
                 $set: {
@@ -47,7 +49,7 @@ export async function PATCH(request: Request) {
             }
         );
 
-        return NextResponse.json({ message: "Appoinment finished" }, { status: 200 });
+        return NextResponse.json({ message: "Appointment finished" }, { status: 200 });
     } catch (error) {
         console.error(error);
         return NextResponse.json({ error: "Internal server error" }, { status: 500 });

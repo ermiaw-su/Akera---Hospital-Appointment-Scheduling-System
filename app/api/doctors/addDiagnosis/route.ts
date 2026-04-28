@@ -26,7 +26,7 @@ export async function POST(request: Request) {
         const db = await getDB();
 
         await db.collection("diagnoses").insertOne({
-            appointmendId: new ObjectId(body.appoinmentId),
+            appointmentId: new ObjectId(body.appointmentId),
             description: body.description,
             createdAt: new Date()
         });

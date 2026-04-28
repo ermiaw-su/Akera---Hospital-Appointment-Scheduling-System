@@ -25,13 +25,25 @@ export async function GET(request: Request) {
         const date = searchParams.get("date");
 
         const db = await getDB(); 
-        const doctorId =  new ObjectId(decoded.id);
+
+        const doctor = await db.collection("doctors").findOne({
+            userId: new ObjectId(decoded.id)
+        });
+
+        if (!doctor) {
+            return NextResponse.json(
+                { error: "Doctor not found" },
+                { status: 404 }
+            );
+        }
+
+        const doctorId =  doctor._id;
 
         let query: any = {doctorId, status: "scheduled"};
 
         if (date) {
-            const start = new Date(date);
-            const end = new Date(date);
+            const start = new Date(date + "T00:00:00");
+            const end = new Date(date + "T23:59:59.999");
             end.setHours(23, 59, 59, 999);
 
             query.date = {
@@ -40,19 +52,18 @@ export async function GET(request: Request) {
             }
         }
 
-        // Get appoinments
+        // Get appointments
         const appointments = await db
-            .collection("appoinments")
+            .collection("appointments")
             .find(query)
             .sort({date: -1})
             .toArray();
 
-        // Check if appoinments exist
-        if (!appointments) {
-            return NextResponse.json(
-                { error: "You do not have any appointments" },
-                { status: 404 }
-            );
+        // Check if appointments exist
+        if (appointments.length === 0) {
+            return NextResponse.json({
+                appointments: []
+            });
         }
 
         return NextResponse.json({

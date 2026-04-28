@@ -26,7 +26,7 @@ export async function GET(request: Request) {
 
         // Total visit
         const totalVisits = await db
-        .collection("appoinments")
+        .collection("appointments")
         .countDocuments({ userId, status: "finished" });
 
         // Total diagnoses
@@ -36,7 +36,7 @@ export async function GET(request: Request) {
 
         // Last visit
         const lastVisit = await db
-        .collection("appoinments")
+        .collection("appointments")
         .find({ userId })
         .sort({ createdAt: -1 })
         .limit(1)
@@ -44,7 +44,7 @@ export async function GET(request: Request) {
 
         // Upcoming appointment
         const upcomingAppointment = await db
-        .collection("appoinments")
+        .collection("appointments")
         .find({ userId, status: "scheduled" })
         .sort({ date: 1 })
         .limit(1)

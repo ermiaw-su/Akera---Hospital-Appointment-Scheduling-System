@@ -3,27 +3,49 @@
 import { useState, useEffect } from "react";
 
 export default function BookAppointment() {
-  const [hospitals, setHospitals] = useState<string[]>([]);
-  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [hospitals, setHospitals] = useState<any[]>([]);
+  const [poli, setPoli] = useState<any[]>([]);
+  const [doctor, setDoctor] = useState<any[]>([]);
+  const [suggestions, setSuggestions] = useState<any[]>([]);
 
   const [form, setForm] = useState({
+    hospitalId: "",
     hospitalName: "",
+    poliId: "",
     poliName: "",
+    doctorId: "",
     doctorName: "",
     date: "",
     time: "",
     reason: "",
   });
 
-  //Fetch hospitals from API
-  useEffect(() => {
-    fetch("/api/hospitals/get")
-        .then((res) => res.json())
-        .then((data) => {
-        const names = data.hospitals.map((h: any) => h.hospitalName);
-        setHospitals(names);
-        });
-    }, []);
+// Fetch hospital
+useEffect(() => {
+  fetch("/api/hospitals/get")
+    .then(res => res.json())
+    .then(data => setHospitals(data.hospitals));
+}, []);
+
+// Fetch poli by hospital
+useEffect(() => {
+  // Check hospitalId
+  if (!form.hospitalId) return;
+
+  fetch(`/api/poli/get?hospitalId=${form.hospitalId}`)
+    .then(res => res.json())
+    .then(data => setPoli(data.poli));
+}, [form.hospitalId]);
+
+// Fetch doctors by poli
+useEffect(() => {
+  // Check poliId
+  if (!form.poliId) return;
+
+  fetch(`/api/doctors/get?poliId=${form.poliId}`)
+    .then(res => res.json())
+    .then(data => setDoctor(data.doctor));
+}, [form.poliId]);
 
   // Handle autocomplete
   const handleHospitalChange = (value: string) => {
@@ -34,13 +56,14 @@ export default function BookAppointment() {
       return;
     }
 
-    const filtered = hospitals
+    // Filter hospitals
+    const filteredHospitals = hospitals
       .filter((h) =>
-        h.toLowerCase().includes(value.toLowerCase())
+        h.hospitalName.toLowerCase().includes(value.toLowerCase())
       )
       .slice(0, 5); // limit suggestion
-
-    setSuggestions(filtered);
+    
+    setSuggestions(filteredHospitals);
   };
 
   // Submit form
@@ -79,49 +102,56 @@ export default function BookAppointment() {
             placeholder="Hospital Name"
             value={form.hospitalName}
             onChange={(e) => handleHospitalChange(e.target.value)}
-            style={{ width: "100%", padding: "8px" }}
           />
 
-          {suggestions.length > 0 && (
+          {suggestions.map((h) => (
             <div
-              style={{
-                position: "absolute",
-                top: "40px",
-                width: "100%",
-                background: "white",
-                border: "1px solid #ccc",
-                borderRadius: "6px",
-                zIndex: 10,
+              key={h._id}
+              onClick={() => {
+                setForm({
+                  ...form,
+                  hospitalName: h.hospitalName,
+                  hospitalId: h._id,
+                  poliId: "",
+                  doctorId: ""
+                });
+                setSuggestions([]);
               }}
             >
-              {suggestions.map((item, index) => (
-                <div
-                  key={index}
-                  style={{
-                    padding: "8px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    setForm({ ...form, hospitalName: item });
-                    setSuggestions([]);
-                  }}
-                >
-                  {item}
-                </div>
-              ))}
+              {h.hospitalName}
             </div>
-          )}
+          ))}
         </div>
 
-        {/* Doctor */}
-        <input
-          placeholder="Doctor Name"
-          value={form.doctorName}
+        <select
+          disabled={!form.hospitalId}
+          value={form.poliId}
           onChange={(e) =>
-            setForm({ ...form, doctorName: e.target.value })
+            setForm({ ...form, poliId: e.target.value, doctorId: "" })
           }
-          style={{ marginBottom: "15px", width: "100%", padding: "8px" }}
-        />
+        >
+          <option value="">Select Poli</option>
+          {poli.map((p) => (
+            <option key={p._id} value={p._id}>
+              {p.poliName}
+            </option>
+          ))}
+        </select>
+
+        <select
+          disabled={!form.poliId}
+          value={form.doctorId}
+          onChange={(e) =>
+            setForm({ ...form, doctorId: e.target.value })
+          }
+        >
+          <option value="">Select Doctor</option>
+          {doctor.map((d) => (
+            <option key={d._id} value={d._id}>
+              {d.doctorName}
+            </option>
+          ))}
+        </select>
 
         {/* Date */}
         <input

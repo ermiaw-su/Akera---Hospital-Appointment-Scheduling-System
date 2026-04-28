@@ -1,8 +1,42 @@
 import {NextResponse} from "next/server";
 import {getDB} from "@/lib/mongodb";
 import {ObjectId} from "mongodb";
+import jwt from "jsonwebtoken";
 
 export async function POST(request: Request) {
+    // Get the header
+    const authHeader = request.headers.get("authorization")
+
+    if (!authHeader) {
+        return NextResponse.json(
+            {error: "Unauthorized"},
+            {status: 401}
+        )
+    }
+
+    // Get the token
+    const token = authHeader.split(" ")[1]
+
+    // Declare decoded
+    let decoded: any;
+
+    try {
+        // Verify the token
+        decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch {
+        return NextResponse.json(
+            {error: "Invalid token"},
+            {status: 401}
+        )
+    }
+
+    if (decoded.role !== "admin") {
+        return NextResponse.json(
+            {error: "Unauthorized"},
+            {status: 401}
+        )
+    }
+
     //Take the input
     const body = await request.json()
 

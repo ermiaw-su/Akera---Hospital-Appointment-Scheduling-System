@@ -1,11 +1,11 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import {useParams} from "next/navigation";
+import {useSearchParams} from "next/navigation";
 
 export default function PatientDetails() {
-    const params = useParams();
-    const id = params.id;
+    const searchParams = useSearchParams();
+    const id = searchParams.get("id");
     
     const [data, setData] = useState<any>(null);
 
@@ -21,13 +21,22 @@ export default function PatientDetails() {
             return
         }
 
-        const res = await fetch(`/api/doctors/appointmentDetails/${id}`, {
+        const res = await fetch(`/api/doctors/getAppointment?id=${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
+
+        // Check if the request was successful
+        if (!res.ok) {
+            console.error("Failed to fetch data");
+            return;
+        }
+
         const data = await res.json();
-        setData(data);
+        setData({...data.appointment, diagnoses: data.diagnoses, medicines: data.medicines});
+
+        console.log(data);
     };
 
     useEffect(() => {
@@ -36,6 +45,11 @@ export default function PatientDetails() {
         if (!token) {
             window.location.href = "/login";
             return
+        }
+
+        // Check if id is defined
+        if (!id) {
+            return;
         }
 
         fetchData();
@@ -96,12 +110,34 @@ export default function PatientDetails() {
         fetchData();
     }
 
+    const handleFinish = async () => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            window.location.href = "/login";
+            return
+        }
+
+        await fetch("/api/doctors/finishAppointment", {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                appointmentId: id,
+            }),
+        });
+
+        window.location.href = "/doctor";
+    }
+
     return (
         <div style={{padding:"40px"}}>
             <h1>Patient Details</h1>
 
             <h3>Patient Info</h3>
-            <p>Name: {data.patientName}</p>
+            <p>Name: {data.username}</p>
             <p>Hospital: {data.hospitalName}</p>
             <p>Date: {new Date(data.date).toLocaleString()}</p>
             <p>Reason: {data.reason}</p>
@@ -149,6 +185,13 @@ export default function PatientDetails() {
                         </li>
                     ))}
                 </ul>
+
+            <button 
+                onClick={handleFinish}
+                disabled={data.diagnoses?.length === 0 || data.medicines?.length === 0}
+            >
+                Finish
+            </button>
         </div>
     )
 }

@@ -73,13 +73,13 @@ export default function DoctorPage() {
                     <tbody>
                         {appointments.map((a) => (
                             <tr key={a._id}>
-                                <td>{a.patientName}</td>
+                                <td>{a.username}</td>
                                 <td>{new Date(a.date).toLocaleDateString()}</td>
                                 <td>{a.status}</td>
                                 <td>
                                     <button
                                         onClick={() =>
-                                            router.push(`/doctor/patientDetails/${a._id}`)
+                                            router.push(`/doctor/patientDetails?id=${a._id}`)
                                         }
                                     >
                                         Select
