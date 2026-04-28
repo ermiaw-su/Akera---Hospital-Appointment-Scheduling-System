@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
+import ProfileModal from "./updateProfile/page";
 
 type UserProfile = {
   _id: string;
@@ -15,6 +16,7 @@ type UserProfile = {
 };
 
 export default function ProfilePage() {
+    const [showModal, setShowModal] = useState(false);
     const [user, setUser] = useState<UserProfile | null>(null);
 
     useEffect(() => {
@@ -40,29 +42,43 @@ export default function ProfilePage() {
 
     return (
         <div style={{ padding: "40px", fontFamily: "Arial" }}>
-        <h1>User Profile</h1>
+            <h1>User Profile</h1>
 
-        <div
-            style={{
-            marginTop: "30px",
-            background: "#f4f6f9",
-            padding: "30px",
-            borderRadius: "12px",
-            maxWidth: "500px",
-            }}
-        >
-            <p><strong>Full Name:</strong> {user.fullName}</p>
-            <p><strong>Gender:</strong> {user.gender}</p>
-            <p><strong>Birth Date:</strong> {user.birthDate}</p>
-            <p><strong>Phone:</strong> {user.phone}</p>
-            <p><strong>Address:</strong> {user.address}</p>
-            <p><strong>Username:</strong> {user.username}</p>
-            <p><strong>Email:</strong> {user.email}</p>
-            <p>
-            <strong>Member Since:</strong>{" "}
-            {new Date(user.createdAt).toLocaleDateString()}
-            </p>
+            <div
+                style={{
+                marginTop: "30px",
+                background: "#f4f6f9",
+                padding: "30px",
+                borderRadius: "12px",
+                maxWidth: "500px",
+                }}
+            >
+                <p><strong>Full Name:</strong> {user.fullName}</p>
+                <p><strong>Gender:</strong> {user.gender}</p>
+                <p><strong>Birth Date:</strong> {user.birthDate}</p>
+                <p><strong>Phone:</strong> {user.phone}</p>
+                <p><strong>Address:</strong> {user.address}</p>
+                <p><strong>Username:</strong> {user.username}</p>
+                <p><strong>Email:</strong> {user.email}</p>
+                <p>
+                <strong>Member Since:</strong>{" "}
+                {new Date(user.createdAt).toLocaleDateString()}
+                </p>
+            </div>
+
+            <div style={{ marginTop: "30px" }}>
+                <button
+                    style={{ marginRight: "10px" }}
+                    onClick={() => setShowModal(true)}
+                >
+                    Edit Profile
+                </button>
+
+                <ProfileModal 
+                    isOpen={showModal}
+                    onClose={() => setShowModal(false)}
+                />
+            </div>
         </div>
-    </div>
     )
 }

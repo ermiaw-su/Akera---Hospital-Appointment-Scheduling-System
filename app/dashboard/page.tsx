@@ -45,6 +45,11 @@ export default function Dashboard(){
         return <p>Loading...</p>
     }
 
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+    }
+
     return (
         <div style={{ padding: "40px", fontFamily: "Arial" }}>
             <h1>Dashboard</h1>
@@ -107,6 +112,13 @@ export default function Dashboard(){
                 onClick={() => (window.location.href = "/visit-history")}
                 >
                 📜 Visit History
+                </button>
+
+                <button
+                style={buttonStyle}
+                onClick={() => handleLogout()}
+                >
+                🚪 Logout
                 </button>
 
                 {/* Admin Features */}

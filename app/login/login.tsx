@@ -38,11 +38,7 @@ export default function Login() {
     localStorage.setItem("token", data.token);
     alert("Login Success");
     window.location.href = "/doctor";
-  } else if (res.ok && data.role == "admin") {
-    localStorage.setItem("token", data.token);
-    alert("Login Success");
-    window.location.href = "/admin";
-  }else if (res.ok) {
+  } else if (res.ok) {
     localStorage.setItem("token", data.token);
     alert("Login Success");
     window.location.href = "/dashboard";
