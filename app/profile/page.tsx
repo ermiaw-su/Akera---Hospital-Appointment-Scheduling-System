@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import ProfileModal from "./updateProfile/page";
+import styles from "./profile.module.css";
 
 type UserProfile = {
   _id: string;
@@ -41,44 +42,103 @@ export default function ProfilePage() {
     }
 
     return (
-        <div style={{ padding: "40px", fontFamily: "Arial" }}>
-            <h1>User Profile</h1>
+        <div className={styles.container}>
 
-            <div
-                style={{
-                marginTop: "30px",
-                background: "#f4f6f9",
-                padding: "30px",
-                borderRadius: "12px",
-                maxWidth: "500px",
-                }}
-            >
-                <p><strong>Full Name:</strong> {user.fullName}</p>
-                <p><strong>Gender:</strong> {user.gender}</p>
-                <p><strong>Birth Date:</strong> {user.birthDate}</p>
-                <p><strong>Phone:</strong> {user.phone}</p>
-                <p><strong>Address:</strong> {user.address}</p>
-                <p><strong>Username:</strong> {user.username}</p>
-                <p><strong>Email:</strong> {user.email}</p>
-                <p>
-                <strong>Member Since:</strong>{" "}
-                {new Date(user.createdAt).toLocaleDateString()}
-                </p>
+            {/* SIDEBAR */}
+            <div className={styles.sidebar}>
+            <div className={styles.avatar}>
+                <img src="https://i.pravatar.cc/150" alt="avatar" />
+                <div className={styles.name}>{user.fullName}</div>
             </div>
 
-            <div style={{ marginTop: "30px" }}>
-                <button
-                    style={{ marginRight: "10px" }}
-                    onClick={() => setShowModal(true)}
-                >
-                    Edit Profile
-                </button>
+            <div className={styles.menu}>
+                <div className={`${styles.menuItem} ${styles.active}`}>
+                ⚙ Account Settings
+                </div>
+                <div 
+                    className={styles.menuItem}
+                    onClick={() => (window.location.href = "/book")}
+                    >
+                    Book Appointment
+                    </div>
 
-                <ProfileModal 
-                    isOpen={showModal}
-                    onClose={() => setShowModal(false)}
-                />
+                    <div 
+                    className={styles.menuItem}
+                    onClick={() => (window.location.href = "/visit-history")}
+                    >
+                    Book History
+                    </div>
+
+                    <div 
+                    className={styles.menuItem}
+                    onClick={() => {
+                        localStorage.removeItem("token");
+                        window.location.href = "/login";
+                    }}
+                    >
+                    Sign Out
+                    </div>
+            </div>
+            </div>
+
+            {/* MAIN */}
+            <div className={styles.main}>
+            <div className={styles.title}>Account Settings</div>
+
+            <div className={styles.formGrid}>
+
+                <div className={styles.inputGroup}>
+                <label className={styles.label}>Full Name</label>
+                <input className={styles.input} value={user.fullName} readOnly />
+                </div>
+
+                <div className={styles.inputGroup}>
+                <label className={styles.label}>Username</label>
+                <input className={styles.input} value={user.username} readOnly />
+                </div>
+
+                <div className={styles.inputGroup}>
+                <label className={styles.label}>Email</label>
+                <input className={styles.input} value={user.email} readOnly />
+                </div>
+
+                <div className={styles.inputGroup}>
+                <label className={styles.label}>Phone</label>
+                <input className={styles.input} value={user.phone} readOnly />
+                </div>
+
+                <div className={styles.inputGroup}>
+                <label className={styles.label}>Gender</label>
+                <input className={styles.input} value={user.gender} readOnly />
+                </div>
+
+                <div className={styles.inputGroup}>
+                <label className={styles.label}>Birth Date</label>
+                <input className={styles.input} value={user.birthDate} readOnly />
+                </div>
+
+                <div className={styles.inputGroup} style={{ gridColumn: "span 2" }}>
+                <label className={styles.label}>Address</label>
+                <input className={styles.input} value={user.address} readOnly />
+                </div>
+
+            </div>
+
+            <div className={styles.buttonGroup}>
+                <button
+                className={styles.saveButton}
+                onClick={() => setShowModal(true)}
+                >
+                Edit Profile
+                </button>
+            </div>
+
+            <ProfileModal 
+                isOpen={showModal}
+                onClose={() => setShowModal(false)}
+            />
+
             </div>
         </div>
-    )
+        );
 }

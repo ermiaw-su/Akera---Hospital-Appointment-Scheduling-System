@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getDB } from "@/lib/mongodb";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
+import styles from "./profileModal.module.css";
 
 export async function POST(request:Request){
   try{

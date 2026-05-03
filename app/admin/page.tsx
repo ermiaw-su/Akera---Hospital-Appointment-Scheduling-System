@@ -1,62 +1,93 @@
 "use client";
 
 import jwt from "jsonwebtoken";
-import {useEffect, useState} from "react";
-import {useRouter} from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import styles from "./admin.module.css";
 
 export default function AdminDashoard() {
 
     const [authorized, setAuthorized] = useState(false);
+    const [username, setUsername] = useState("");
     const router = useRouter();
 
     useEffect(() => {
-        // Check the token
         const token = localStorage.getItem("token");
 
-        // If token not found, redirect to login
         if (!token) {
             router.push("/login");
-            return
+            return;
         }
 
-        // Decode the token
-        const decoded: any = jwt.decode(token)
+        const decoded: any = jwt.decode(token);
 
-        // If token invalid, redirect to login
         if (!decoded || decoded.role !== "admin") {
             window.location.href = "/login";
-            return
+            return;
         }
 
+        setUsername(decoded?.username || "Admin");
         setAuthorized(true);
     }, []);
 
-    // Set loading
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+    };
+
     if (!authorized) {
         return <p>Loading...</p>;
     }
 
     return (
-        <div>
-            <h1>Admin Dashboard</h1>
+        <div className={styles.container}>
 
-            <button
-                onClick={() => router.push("/admin/createHospital")}
-            >
-                Add Hospital
-            </button>
+            {/* HEADER */}
+            <div className={styles.header}>
+                <h1 className={styles.title}>Admin Dashboard</h1>
 
-            <button
-                onClick={() => router.push("/admin/createPoli")}
-            >
-                Add Poli
-            </button>
+                <div className={styles.userBox}>
+                    <div className={styles.username}>
+                        👤 {username}
+                    </div>
 
-            <button
-                onClick={() => router.push("/admin/createDoctor")}
-            >
-                Add Doctor
-            </button>
+                    <button
+                        className={styles.logout}
+                        onClick={handleLogout}
+                    >
+                        Logout
+                    </button>
+                </div>
+            </div>
+
+            {/* ACTION CARDS */}
+            <div className={styles.grid}>
+
+                <div
+                    className={styles.card}
+                    onClick={() => router.push("/admin/createHospital")}
+                >
+                    <div className={styles.cardIcon}>🏥</div>
+                    <div className={styles.cardTitle}>Add Hospital</div>
+                </div>
+
+                <div
+                    className={styles.card}
+                    onClick={() => router.push("/admin/createPoli")}
+                >
+                    <div className={styles.cardIcon}>🩺</div>
+                    <div className={styles.cardTitle}>Add Poli</div>
+                </div>
+
+                <div
+                    className={styles.card}
+                    onClick={() => router.push("/admin/createDoctor")}
+                >
+                    <div className={styles.cardIcon}>👨‍⚕️</div>
+                    <div className={styles.cardTitle}>Add Doctor</div>
+                </div>
+
+            </div>
         </div>
-    )
+    );
 }

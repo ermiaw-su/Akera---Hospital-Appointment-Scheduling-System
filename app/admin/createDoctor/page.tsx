@@ -1,6 +1,7 @@
 "use client"
 
 import {useState, useEffect} from "react"
+import styles from "./createDoctor.module.css";
 
 export default function createDoctor() {
     const [form, setForm] = useState({
@@ -83,70 +84,87 @@ export default function createDoctor() {
     };
 
     return (
-        <div style={{padding:"40px"}}>
-            <h1>Create Doctor</h1>
+        <div className={styles.container}>
+            <div className={styles.card}>
+            <h1 className={styles.title}>Create Doctor</h1>
 
-            <form onSubmit={handleSubmit} style={{marginTop:"20px"}}>
-
-                <select
-                        value={form.hospitalId}
-                        onChange={(e) => setForm({ ...form, hospitalId: e.target.value, poliId: "" })}
-                    >
-                        <option value="">Select Hospital</option>
-
-                        {hospitals.map((h) => (
-                            <option key={h._id} value={h._id.toString()}>
-                                {h.hospitalName}
-                            </option>
-                        ))}
-                    </select>
+            <form onSubmit={handleSubmit} className={styles.form}>
 
                 <select
-                        disabled={!form.hospitalId}
-                        value={form.poliId}
-                        onChange={(e) => {
-                            setForm({ ...form, poliId: e.target.value });
-                        }}
-                    >
-                        <option value="">Select Poli</option>
+                className={styles.select}
+                value={form.hospitalId}
+                onChange={(e) =>
+                    setForm({ ...form, hospitalId: e.target.value, poliId: "" })
+                }
+                >
+                <option value="">Select Hospital</option>
+                {hospitals.map((h) => (
+                    <option key={h._id} value={h._id.toString()}>
+                    {h.hospitalName}
+                    </option>
+                ))}
+                </select>
 
-                        {Array.isArray(poli) && poli.map((p) => (
-                            <option key={p._id} value={p._id.toString()}>
-                                {p.poliName}
-                            </option>
-                        ))}
-                    </select>
+                <select
+                className={styles.select}
+                disabled={!form.hospitalId}
+                value={form.poliId}
+                onChange={(e) =>
+                    setForm({ ...form, poliId: e.target.value })
+                }
+                >
+                <option value="">Select Poli</option>
+                {Array.isArray(poli) &&
+                    poli.map((p) => (
+                    <option key={p._id} value={p._id.toString()}>
+                        {p.poliName}
+                    </option>
+                    ))}
+                </select>
 
                 <input
+                className={styles.input}
                 placeholder="Doctor Name"
                 value={form.doctorName}
-                onChange={(e)=>setForm({...form,doctorName:e.target.value})}
+                onChange={(e) =>
+                    setForm({ ...form, doctorName: e.target.value })
+                }
                 />
 
                 <input
+                className={styles.input}
                 placeholder="Specialization"
                 value={form.specialization}
-                onChange={(e)=>setForm({...form,specialization:e.target.value})}
+                onChange={(e) =>
+                    setForm({ ...form, specialization: e.target.value })
+                }
                 />
 
-                <input 
-                    placeholder="Username"
-                    value={form.username}
-                    onChange={(e) => setForm({...form,username:e.target.value})}
+                <input
+                className={styles.input}
+                placeholder="Username"
+                value={form.username}
+                onChange={(e) =>
+                    setForm({ ...form, username: e.target.value })
+                }
                 />
 
-                <input 
-                    placeholder="Password"
-                    type="password"
-                    value={form.password}
-                    onChange={(e) => setForm({...form,password:e.target.value})}
+                <input
+                className={styles.input}
+                type="password"
+                placeholder="Password"
+                value={form.password}
+                onChange={(e) =>
+                    setForm({ ...form, password: e.target.value })
+                }
                 />
 
-                <button style={{marginTop:"20px"}}>
+                <button className={styles.button}>
                 Create Doctor
                 </button>
 
             </form>
+            </div>
         </div>
-    )
+        );
 }

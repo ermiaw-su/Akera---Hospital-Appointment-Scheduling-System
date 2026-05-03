@@ -50,11 +50,16 @@ export async function GET(request: Request) {
         .limit(1)
         .toArray();
 
+        // Username
+        const user = await db.collection("users")
+        .findOne({ _id: userId });
+
         return NextResponse.json({
+            username: user?.username,
             totalVisits,
             totalDiagnoses,
             lastHospital: lastVisit[0]?.hospitalName || "None",
-            upcomingAppointment: upcomingAppointment[0]?.date || "None",
+            upcomingAppointment: upcomingAppointment[0] || "None",
         });
     } catch (error) {
         return NextResponse.json(

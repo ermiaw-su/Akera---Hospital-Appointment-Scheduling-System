@@ -1,6 +1,7 @@
 "use client"
 
 import {useState, useEffect} from "react"
+import styles from "./createPoli.module.css";
 
 export default function createPoli() {
     const [form, setForm] = useState({
@@ -51,38 +52,51 @@ export default function createPoli() {
     }
 
     return (
-        <div style={{padding:"40px"}}>
-            <h1>Create Poli</h1>
+        <div className={styles.container}>
+            <div className={styles.card}>
+            <h1 className={styles.title}>Create Poli</h1>
 
-            <form onSubmit={handleSubmit} style={{marginTop:"20px"}}>
+            <form onSubmit={handleSubmit} className={styles.form}>
 
                 <select
-                        onChange={(e) => setForm({ ...form, hospitalId: e.target.value })}
-                    >
-                        <option value="">Select Hospital</option>
-
-                        {hospitals.map((h) => (
-                            <option key={h._id} value={h._id}>
-                                {h.hospitalName}
-                            </option>
-                        ))}
-                    </select>
+                className={styles.select}
+                value={form.hospitalId}
+                onChange={(e) =>
+                    setForm({ ...form, hospitalId: e.target.value })
+                }
+                >
+                <option value="">Select Hospital</option>
+                {hospitals.map((h) => (
+                    <option key={h._id} value={h._id}>
+                    {h.hospitalName}
+                    </option>
+                ))}
+                </select>
 
                 <input
+                className={styles.input}
                 placeholder="Poli Name"
-                onChange={(e)=>setForm({...form,poliName:e.target.value})}
+                value={form.poliName}
+                onChange={(e) =>
+                    setForm({ ...form, poliName: e.target.value })
+                }
                 />
 
                 <input
+                className={styles.input}
                 placeholder="Poli Code"
-                onChange={(e)=>setForm({...form,poliCode:e.target.value})}
+                value={form.poliCode}
+                onChange={(e) =>
+                    setForm({ ...form, poliCode: e.target.value })
+                }
                 />
 
-                <button style={{marginTop:"20px"}}>
+                <button className={styles.button}>
                 Create Poli
                 </button>
 
             </form>
+            </div>
         </div>
-    )
+        );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import styles from "./book.module.css";
 
 export default function BookAppointment() {
   const [hospitals, setHospitals] = useState<any[]>([]);
@@ -92,100 +93,127 @@ useEffect(() => {
   };
 
   return (
-    <div style={{ padding: "40px" }}>
+    <div className={styles.container}>
       <h1>Book Hospital Appointment</h1>
 
-      <form onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
-        
-        <div style={{ position: "relative", marginBottom: "15px" }}>
-          <input
-            placeholder="Hospital Name"
-            value={form.hospitalName}
-            onChange={(e) => handleHospitalChange(e.target.value)}
-          />
+      <form onSubmit={handleSubmit}>
 
-          {suggestions.map((h) => (
-            <div
-              key={h._id}
-              onClick={() => {
-                setForm({
-                  ...form,
-                  hospitalName: h.hospitalName,
-                  hospitalId: h._id,
-                  poliId: "",
-                  doctorId: ""
-                });
-                setSuggestions([]);
-              }}
-            >
-              {h.hospitalName}
+        <div className={styles.formGrid}>
+
+          {/* OUTLINED INPUT */}
+          <div className={styles.group}>
+            <label className={styles.label}>Hospital Name</label>
+            <input
+              className={`${styles.input} ${styles.outlined}`}
+              value={form.hospitalName}
+              onChange={(e) => handleHospitalChange(e.target.value)}
+            />
+
+            <div className={styles.suggestionBox}>
+              {suggestions.map((h) => (
+                <div
+                  key={h._id}
+                  className={styles.suggestionItem}
+                  onClick={() => {
+                    setForm({
+                      ...form,
+                      hospitalName: h.hospitalName,
+                      hospitalId: h._id,
+                      poliId: "",
+                      doctorId: ""
+                    });
+                    setSuggestions([]);
+                  }}
+                >
+                  {h.hospitalName}
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* SELECT */}
+          <div className={styles.group}>
+            <label className={styles.label}>Poli</label>
+            <select
+              className={styles.select}
+              disabled={!form.hospitalId}
+              value={form.poliId}
+              onChange={(e) =>
+                setForm({ ...form, poliId: e.target.value, doctorId: "" })
+              }
+            >
+              <option value="">Select Poli</option>
+              {poli.map((p) => (
+                <option key={p._id} value={p._id}>
+                  {p.poliName}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* SELECT */}
+          <div className={styles.group}>
+            <label className={styles.label}>Doctor</label>
+            <select
+              className={styles.select}
+              disabled={!form.poliId}
+              value={form.doctorId}
+              onChange={(e) =>
+                setForm({ ...form, doctorId: e.target.value })
+              }
+            >
+              <option value="">Select Doctor</option>
+              {doctor.map((d) => (
+                <option key={d._id} value={d._id}>
+                  {d.doctorName}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* DATE */}
+          <div className={styles.group}>
+            <label className={styles.label}>Date</label>
+            <input
+              type="date"
+              className={styles.input}
+              value={form.date}
+              onChange={(e) =>
+                setForm({ ...form, date: e.target.value })
+              }
+            />
+          </div>
+
+          {/* TIME */}
+          <div className={styles.group}>
+            <label className={styles.label}>Time</label>
+            <input
+              type="time"
+              className={styles.input}
+              value={form.time}
+              onChange={(e) =>
+                setForm({ ...form, time: e.target.value })
+              }
+            />
+          </div>
+
+          {/* MULTILINE */}
+          <div className={styles.group}>
+            <label className={styles.label}>Reason</label>
+            <textarea
+              className={`${styles.input} ${styles.textarea}`}
+              value={form.reason}
+              onChange={(e) =>
+                setForm({ ...form, reason: e.target.value })
+              }
+            />
+          </div>
         </div>
 
-        <select
-          disabled={!form.hospitalId}
-          value={form.poliId}
-          onChange={(e) =>
-            setForm({ ...form, poliId: e.target.value, doctorId: "" })
-          }
-        >
-          <option value="">Select Poli</option>
-          {poli.map((p) => (
-            <option key={p._id} value={p._id}>
-              {p.poliName}
-            </option>
-          ))}
-        </select>
-
-        <select
-          disabled={!form.poliId}
-          value={form.doctorId}
-          onChange={(e) =>
-            setForm({ ...form, doctorId: e.target.value })
-          }
-        >
-          <option value="">Select Doctor</option>
-          {doctor.map((d) => (
-            <option key={d._id} value={d._id}>
-              {d.doctorName}
-            </option>
-          ))}
-        </select>
-
-        {/* Date */}
-        <input
-          type="date"
-          value={form.date}
-          onChange={(e) =>
-            setForm({ ...form, date: e.target.value })
-          }
-          style={{ marginBottom: "15px", width: "100%", padding: "8px" }}
-        />
-
-        {/* Time */}
-        <input
-          type="time"
-          value={form.time}
-          onChange={(e) =>
-            setForm({ ...form, time: e.target.value })
-          }
-          style={{ marginBottom: "15px", width: "100%", padding: "8px" }}
-        />
-
-        {/* Reason */}
-        <input
-          placeholder="Reason for visit"
-          value={form.reason}
-          onChange={(e) =>
-            setForm({ ...form, reason: e.target.value })
-          }
-          style={{ marginBottom: "15px", width: "100%", padding: "8px" }}
-        />
-
-        <button style={{ marginTop: "20px" }}>
+        <button className={styles.button}>
           Book Appointment
         </button>
+
       </form>
     </div>
   );

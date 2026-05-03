@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import {useSearchParams} from "next/navigation";
+import styles from "./patientDetails.module.css";
 
 export default function PatientDetails() {
     const searchParams = useSearchParams();
@@ -133,65 +134,98 @@ export default function PatientDetails() {
     }
 
     return (
-        <div style={{padding:"40px"}}>
-            <h1>Patient Details</h1>
+    <div className={styles.container}>
 
-            <h3>Patient Info</h3>
-            <p>Name: {data.username}</p>
-            <p>Hospital: {data.hospitalName}</p>
-            <p>Date: {new Date(data.date).toLocaleString()}</p>
-            <p>Reason: {data.reason}</p>
+        <h1 className={styles.title}>Patient Details</h1>
 
-            <h3>Add Diagnosis</h3>
-            <input 
-                placeholder="Diagnosis"
-                value={diagnosis}
-                onChange={(e) => setDiagnosis(e.target.value)}
+        {/* INFO */}
+        <div className={styles.card}>
+        <div className={styles.sectionTitle}>Patient Info</div>
+        <p className={styles.info}>Name: {data.username}</p>
+        <p className={styles.info}>Hospital: {data.hospitalName}</p>
+        <p className={styles.info}>
+            Date: {new Date(data.date).toLocaleString()}
+        </p>
+        <p className={styles.info}>Reason: {data.reason}</p>
+        </div>
+
+        {/* DIAGNOSIS */}
+        <div className={styles.card}>
+        <div className={styles.sectionTitle}>Add Diagnosis</div>
+
+        <div className={styles.formRow}>
+            <input
+            className={styles.input}
+            placeholder="Diagnosis"
+            value={diagnosis}
+            onChange={(e) => setDiagnosis(e.target.value)}
             />
 
-            <button onClick={handleAddDiagnosis}>
-                Add Diagnosis
-            </button>
-
-            <h3>Add Medicine</h3>
-            <input 
-                placeholder="Medicine Name"
-                value={medicine}
-                onChange={(e) => setMedicine(e.target.value)}
-            />
-
-            <input 
-                placeholder="Dosage"
-                value={dosage}
-                onChange={(e) => setDosage(e.target.value)}
-            />
-
-            <button onClick={handleAddMedicine}>
-                Add Medicine
-            </button>
-
-            <h3>Diagnoses</h3>
-                <ul>
-                    {data.diagnoses?.map((d: any) => (
-                        <li key={d._id}>{d.description}</li>
-                    ))}
-                </ul>
-
-            <h3>Medicines</h3>
-                <ul>
-                    {data.medicines?.map((m: any) => (
-                        <li key={m._id}>
-                            {m.medicine} - {m.dosage}
-                        </li>
-                    ))}
-                </ul>
-
-            <button 
-                onClick={handleFinish}
-                disabled={data.diagnoses?.length === 0 || data.medicines?.length === 0}
+            <button
+            className={styles.button}
+            onClick={handleAddDiagnosis}
             >
-                Finish
+            Add
             </button>
         </div>
-    )
+
+        <div className={styles.list}>
+            {data.diagnoses?.map((d: any) => (
+            <div key={d._id} className={styles.listItem}>
+                {d.description}
+            </div>
+            ))}
+        </div>
+        </div>
+
+        {/* MEDICINE */}
+        <div className={styles.card}>
+        <div className={styles.sectionTitle}>Add Medicine</div>
+
+        <div className={styles.formRow}>
+            <input
+            className={styles.input}
+            placeholder="Medicine"
+            value={medicine}
+            onChange={(e) => setMedicine(e.target.value)}
+            />
+
+            <input
+            className={styles.input}
+            placeholder="Dosage"
+            value={dosage}
+            onChange={(e) => setDosage(e.target.value)}
+            />
+
+            <button
+            className={styles.button}
+            onClick={handleAddMedicine}
+            >
+            Add
+            </button>
+        </div>
+
+        <div className={styles.list}>
+            {data.medicines?.map((m: any) => (
+            <div key={m._id} className={styles.listItem}>
+                {m.medicine} - {m.dosage}
+            </div>
+            ))}
+        </div>
+        </div>
+
+        {/* FINISH */}
+        <button
+        className={styles.finish}
+        onClick={handleFinish}
+        disabled={
+            data.diagnoses?.length === 0 ||
+            data.medicines?.length === 0
+        }
+        >
+        Finish Appointment
+        </button>
+
+    </div>
+    );
 }

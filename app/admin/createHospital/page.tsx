@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import styles from "./createHospital.module.css";
 
 export default function CreateHospital() {
 
@@ -34,31 +35,45 @@ export default function CreateHospital() {
   };
 
   return (
-        <div style={{padding:"40px"}}>
-            <h1>Create Hospital</h1>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h1 className={styles.title}>Create Hospital</h1>
 
-            <form onSubmit={handleSubmit} style={{marginTop:"20px"}}>
+        <form onSubmit={handleSubmit} className={styles.form}>
 
-                <input
-                placeholder="Hospital Name"
-                onChange={(e)=>setForm({...form,hospitalName:e.target.value})}
-                />
+          <input
+            className={styles.input}
+            placeholder="Hospital Name"
+            value={form.hospitalName}
+            onChange={(e) =>
+              setForm({ ...form, hospitalName: e.target.value })
+            }
+          />
 
-                <input
-                placeholder="Address"
-                onChange={(e)=>setForm({...form,address:e.target.value})}
-                />
+          <input
+            className={styles.input}
+            placeholder="Address"
+            value={form.address}
+            onChange={(e) =>
+              setForm({ ...form, address: e.target.value })
+            }
+          />
 
-                <input
-                placeholder="Phone"
-                onChange={(e)=>setForm({...form,phone:e.target.value})}
-                />
+          <input
+            className={styles.input}
+            placeholder="Phone"
+            value={form.phone}
+            onChange={(e) =>
+              setForm({ ...form, phone: e.target.value })
+            }
+          />
 
-                <button style={{marginTop:"20px"}}>
-                Create Hospital
-                </button>
+          <button className={styles.button}>
+            Create Hospital
+          </button>
 
-            </form>
-        </div>
-    )
+        </form>
+      </div>
+    </div>
+  );
 }

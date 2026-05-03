@@ -1,0 +1,70 @@
+.container {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 40px;
+  font-family: "Inter", Arial, sans-serif;
+}
+
+/* CARD */
+.card {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+/* TITLE */
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+/* FORM */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* INPUT & SELECT */
+.input,
+.select {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  outline: none;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.input:focus,
+.select:focus {
+  border-color: #3b82f6;
+}
+
+/* DISABLED */
+.select:disabled {
+  background: #e2e8f0;
+  cursor: not-allowed;
+}
+
+/* BUTTON */
+.button {
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.button:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}

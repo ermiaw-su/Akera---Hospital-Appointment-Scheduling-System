@@ -1,0 +1,98 @@
+.container {
+  padding: 40px;
+  font-family: "Inter", Arial, sans-serif;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+/* TITLE */
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
+}
+
+/* SECTION TITLE */
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* INFO TEXT */
+.info {
+  color: #475569;
+  margin-bottom: 5px;
+}
+
+/* FORM */
+.formRow {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  flex: 1;
+}
+
+/* BUTTON */
+.button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.buttonSecondary {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.buttonDanger {
+  background: #ef4444;
+}
+
+/* LIST */
+.list {
+  margin-top: 10px;
+}
+
+.listItem {
+  padding: 10px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 14px;
+}
+
+/* FINISH BUTTON */
+.finish {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+  cursor: pointer;
+}
+
+.finish:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}

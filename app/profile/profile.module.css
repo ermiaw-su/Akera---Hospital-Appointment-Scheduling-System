@@ -1,0 +1,119 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  background: #f4f6f9;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 260px;
+  background: #f1f5f9;
+  padding: 30px 20px;
+  border-right: 1px solid #e2e8f0;
+}
+
+.avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.avatar img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.name {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.menuItem {
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #64748b;
+  transition: 0.2s;
+}
+
+.menuItem:hover {
+  background: #e2e8f0;
+}
+
+.active {
+  background: #e0f2fe;
+  color: #0284c7;
+  font-weight: 600;
+}
+
+/* MAIN CONTENT */
+.main {
+  flex: 1;
+  padding: 50px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+/* FORM GRID */
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 5px;
+}
+
+.input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #cbd5f5;
+  background: #f8fafc;
+  outline: none;
+}
+
+/* BUTTON */
+.buttonGroup {
+  margin-top: 30px;
+  display: flex;
+  gap: 20px;
+}
+
+.saveButton {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.cancelButton {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+}

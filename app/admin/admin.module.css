@@ -1,0 +1,81 @@
+.container {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 40px;
+  font-family: "Inter", Arial, sans-serif;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* USER BOX */
+.userBox {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.username {
+  background: #e2e8f0;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* LOGOUT */
+.logout {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #ef4444;
+  color: white;
+  cursor: pointer;
+}
+
+.logout:hover {
+  opacity: 0.9;
+}
+
+/* GRID BUTTONS */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* CARD BUTTON */
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.cardIcon {
+  font-size: 28px;
+}

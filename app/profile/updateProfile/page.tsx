@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
+import styles from "./profileModal.module.css";
 
 type UserProfile = {
   _id: string;
@@ -106,94 +107,97 @@ export default function ProfileModal({
     }
 
     return (
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        background: "rgba(0,0,0,0.5)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-      onClick={onClose}
-    >
-      <div
-        style={{
-          background: "white",
-          padding: "30px",
-          borderRadius: "12px",
-          width: "400px",
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h2>Edit Profile</h2>
-
-        {!user ? (
-          <p>Loading...</p>
-        ) : (
-          <>
-            <label>Full Name</label>
-            <input
-              name="fullName"
-              value={form.fullName}
-              onChange={handleChange}
-            />
-
-            <label>Phone</label>
-            <input
-              name="phone"
-              value={form.phone}
-              onChange={handleChange}
-            />
-
-            <label>Address</label>
-            <input
-              name="address"
-              value={form.address}
-              onChange={handleChange}
-            />
-
-            <label>Gender</label>
-            <select 
-                name="gender"
-                value={form.gender}
-                onChange={handleChange}
+        <div className={styles.overlay} onClick={onClose}>
+            <div
+            className={styles.modal}
+            onClick={(e) => e.stopPropagation()}
             >
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
+            <div className={styles.title}>Edit Profile</div>
 
-            <label>Birth Date</label>
-            <input 
-                type="date"
-                name="birthDate"
-                value={form.birthDate}
-                onChange={handleChange}
-            />
+            {!user ? (
+                <p>Loading...</p>
+            ) : (
+                <div className={styles.form}>
 
-            {/* readonly fields */}
-            <label>Email</label>
-            <input 
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-            />
-            <p><strong>Username:</strong> {user.username}</p>
+                <label className={styles.label}>Full Name</label>
+                <input
+                    className={styles.input}
+                    name="fullName"
+                    value={form.fullName}
+                    onChange={handleChange}
+                />
 
-            <button onClick={() => {console.log("CLIECKED"); handleUpdate();}} style={{ marginTop: "10px" }}>
-              Save
-            </button>
+                <label className={styles.label}>Phone</label>
+                <input
+                    className={styles.input}
+                    name="phone"
+                    value={form.phone}
+                    onChange={handleChange}
+                />
 
-            <button onClick={onClose} style={{ marginLeft: "10px" }}>
-              Cancel
-            </button>
-          </>
-        )}
-      </div>
-    </div>
-  );
+                <label className={styles.label}>Address</label>
+                <input
+                    className={styles.input}
+                    name="address"
+                    value={form.address}
+                    onChange={handleChange}
+                />
+
+                <label className={styles.label}>Gender</label>
+                <select
+                    className={styles.select}
+                    name="gender"
+                    value={form.gender}
+                    onChange={handleChange}
+                >
+                    <option value="">Select gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+
+                <label className={styles.label}>Birth Date</label>
+                <input
+                    className={styles.input}
+                    type="date"
+                    name="birthDate"
+                    value={form.birthDate}
+                    onChange={handleChange}
+                />
+
+                <label className={styles.label}>Email</label>
+                <input
+                    className={`${styles.input} ${styles.readonly}`}
+                    type="email"
+                    value={form.email}
+                    readOnly
+                />
+
+                <label className={styles.label}>Username</label>
+                <input
+                    className={`${styles.input} ${styles.readonly}`}
+                    value={user.username}
+                    readOnly
+                />
+
+                <div className={styles.buttonGroup}>
+                    <button
+                    className={styles.save}
+                    onClick={handleUpdate}
+                    >
+                    Save
+                    </button>
+
+                    <button
+                    className={styles.cancel}
+                    onClick={onClose}
+                    >
+                    Cancel
+                    </button>
+                </div>
+
+                </div>
+            )}
+            </div>
+        </div>
+        );
 }
