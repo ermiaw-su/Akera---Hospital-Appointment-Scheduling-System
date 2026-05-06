@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import {useSearchParams} from "next/navigation";
 import styles from "./patientDetails.module.css";
+import jwt from "jsonwebtoken";
 
 export default function PatientDetails() {
     const searchParams = useSearchParams();
@@ -46,6 +47,13 @@ export default function PatientDetails() {
         if (!token) {
             window.location.href = "/login";
             return
+        }
+
+        const decoded: any = jwt.decode(token);
+
+        if (!decoded || decoded.role !== "doctor") {
+            window.location.href = "/login";
+            return;
         }
 
         // Check if id is defined

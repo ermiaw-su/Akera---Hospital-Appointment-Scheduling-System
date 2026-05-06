@@ -58,6 +58,12 @@ export default function DoctorPage() {
         }
 
         const decoded: any = jwt.decode(token);
+
+        if (!decoded || decoded.role !== "doctor") {
+            window.location.href = "/login";
+            return;
+        }
+        
         setUsername(decoded?.username || "Doctor");
 
         fetchAppointments();

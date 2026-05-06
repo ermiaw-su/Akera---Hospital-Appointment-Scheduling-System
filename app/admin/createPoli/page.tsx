@@ -2,6 +2,7 @@
 
 import {useState, useEffect} from "react"
 import styles from "./createPoli.module.css";
+import jwt from "jsonwebtoken";
 
 export default function createPoli() {
     const [form, setForm] = useState({
@@ -13,6 +14,20 @@ export default function createPoli() {
 
     //Fetch hospital from APi
     useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            window.location.href = "/login";
+            return
+        }
+
+        const decoded: any = jwt.decode(token);
+
+        if (!decoded || decoded.role !== "admin") {
+            window.location.href = "/login";
+            return;
+        }
+        
         const fetchHospitals = async () => {
             const res = await fetch("/api/hospitals/get");
             const data = await res.json();

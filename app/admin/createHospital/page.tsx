@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import styles from "./createHospital.module.css";
+import jwt from "jsonwebtoken";
 
 export default function CreateHospital() {
 
@@ -10,6 +11,22 @@ export default function CreateHospital() {
     address: "",
     phone: ""
   });
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    
+    if (!token) {
+        window.location.href = "/login";
+        return
+    }
+
+    const decoded: any = jwt.decode(token);
+
+    if (!decoded || decoded.role !== "admin") {
+        window.location.href = "/login";
+        return;
+    }
+  })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

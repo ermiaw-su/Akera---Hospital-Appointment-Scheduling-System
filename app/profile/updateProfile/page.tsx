@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import styles from "./profileModal.module.css";
+import jwt from "jsonwebtoken";
 
 type UserProfile = {
   _id: string;
@@ -45,6 +46,13 @@ export default function ProfileModal({
         if (!token) {
             window.location.href = "/login";
             return
+        }
+
+        const decoded: any = jwt.decode(token);
+
+        if (!decoded || decoded.role !== "user") {
+            window.location.href = "/login";
+            return;
         }
 
         fetch("/api/profile", {
